@@ -1,17 +1,15 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TemperatureController;
 
 //by default, the user will be redirected to the login page.
 Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-    //here we are enforcing the user to be authenticated, and their account to be verified through email
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [TemperatureController::class, 'index'])->name('dashboard')->middleware('auth', 'verified');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
