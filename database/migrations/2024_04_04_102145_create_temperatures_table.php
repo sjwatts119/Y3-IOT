@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('temperatures', function (Blueprint $table) {
             $table->id();
             //sensor1 temperature with one decimal place rounded
-            $table->decimal('sensor1', 3, 1);
+            $table->decimal('sensorInside', 3, 1);
             //sensor2 temperature with one decimal place rounded
-            $table->decimal('sensor2', 3, 1);
+            $table->decimal('sensorOutside', 3, 1);
             $table->timestamps();
         });
     }

@@ -18,8 +18,8 @@ class TemperatureFactory extends Factory
     {
         return [
             //we need to make sure the temperature is between 0 and 30 degrees.
-            'sensor1' => $this->faker->randomFloat(1, 0, 30),
-            'sensor2' => $this->faker->randomFloat(1, 0, 30),
+            'sensorInside' => $this->faker->randomFloat(1, 15, 22),
+            'sensorOutside' => $this->faker->randomFloat(1, 0, 15),
         ];
     }
 }
