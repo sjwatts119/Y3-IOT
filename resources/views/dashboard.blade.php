@@ -81,8 +81,35 @@
                 @endif
             </x-slot>
         </x-card>
-        
-        
+
+    </div>
+
+    {{-- make a container row for the two card components with width 100% --}}
+
+    <div class="flex flex-row w-full justify-center h-60">
+
+        {{-- make two cards for inside and outside temperature --}}
+        <x-card header="Inside Temperature">
+            <x-slot name="body">
+                {{-- show the inside temperature with a fa thermometer-half icon --}}
+                <div class="flex flex-col items-center text-4xl">
+                    <i class="fas fa-thermometer-half text-gray-500"></i>
+                    {{--output the most recent temperature reading from the sensor. this is being passed in in the multimensional array $data --}}
+                    <p class="text-gray-500">{{ $currentInside }}°C</p>
+                </div>
+            </x-slot>
+        </x-card>
+
+        <x-card header="Outside Temperature">
+            <x-slot name="body">
+                {{-- show the outside temperature with a fa thermometer-half icon --}}
+                <div class="flex flex-col items-center text-4xl">
+                    <i class="fas fa-thermometer-half text-gray-500"></i>
+                    <p class="text-gray-500">{{ $currentOutside }}°C</p>
+                </div>
+            </x-slot>
+        </x-card>
+
         
 
 

@@ -13,17 +13,20 @@ class TemperatureController extends Controller
         //Create array to use when passing data to the view
         //THIS WILL EVENTUALLY BE COLLECTED BY THE MODEL AND PASSED TO THE VIEW
 
-        //We need to get all the data from the temperatures table and pass it to the view
+        //We need to get all rows of data from the temperatures table
         //this is using eloquent to get all the data from the temperatures table
-        $data = Temperature::all()->toArray();
+        $tableData = Temperature::all();
 
-        //append some additional data to the array temporarily
         $data = [
             'heaterOn' => false,
             'windowOpen' => false,
             'acOn' => false,
-            'warning' => ''
+            'warning' => '',
+            'currentInside' => $tableData->last()->sensorInside,
+            'currentOutside' => $tableData->last()->sensorOutside,
         ];
+
+
 
         // We should check some combinations of the data and set a warning message if they aren't deemed energy efficient. If there is more than one warning condition, we should have a fallback saying that the user is wasting energy.
 
