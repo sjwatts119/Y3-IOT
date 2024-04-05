@@ -13,29 +13,8 @@
         {{-- include the heater livewire component --}}
         <livewire:heater />
 
-        {{-- make a card component with the title "Window" --}}
-        <x-card header="Window">
-            {{-- make a slot for the body of the card --}}
-            <x-slot name="body">
-                {{-- we need to show the user whether the window is open or closed with an appropriate icon --}}
-
-                {{-- if the window is open, show a green fa window-open icon --}}
-                @if ($windowOpen)
-                    <div class="flex flex-col items-center text-4xl">
-                        <i class="fa-solid fa-wind text-blue-500"></i>
-                        <p class="text-blue-500">Open</p>
-                    </div>
-
-                {{-- if the window is closed, show a grey fa window-close icon --}}
-                @else
-                    <div class="flex flex-col items-center text-4xl">
-                        <i class="fas fa-window-close text-gray-500"></i>
-                        <p class="text-gray-500">Closed</p>
-                    </div>
-
-                @endif
-            </x-slot>
-        </x-card>
+        {{-- include the window livewire component --}}
+        <livewire:window />
 
         {{-- make a card component with the title "Air Conditioning" --}}
         <x-card header="Air Conditioning">
