@@ -11,7 +11,7 @@ class Heater extends Component
     {
         //we are currently setting the first load to a string, we will check if the value is true or false in the view. if it is a string we will say the data is loading.
         if (!isset($this->currentHeaterStatus)) {
-            $this->currentHeaterStatus = "false";
+            $this->currentHeaterStatus = "unknown";
         }
     }
 
