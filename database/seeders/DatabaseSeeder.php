@@ -16,12 +16,17 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        //create one user with the following credentials. password is "password".
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        //run the temperature factory to generate 100 records
-        Temperature::factory(100)->create();
+        //run the temperature factory to generate 20 records. wait 3 seconds between each record.
+        for($i = 0; $i < 20; $i++) {
+            Temperature::factory()->create();
+            sleep(3);
+        }
+
     }
 }

@@ -86,29 +86,8 @@
 
     {{-- make a container row for the two card components with width 100% --}}
 
-    <div class="flex flex-row w-full justify-center h-60">
-
-        {{-- make two cards for inside and outside temperature --}}
-        {{-- the inside temperature card will be a livewire component, we need to pass in currentInside --}}
-
-        @livewire('inside-temperature', ['currentInside' => $currentInside])
-
-        {{-- the outside temperature card will be a regular blade component, we need to pass in currentOutside --}}
-
-
-
-
-        <x-card header="Outside Temperature">
-            <x-slot name="body">
-                {{-- show the outside temperature with a fa thermometer-half icon --}}
-                <div class="flex flex-col items-center text-4xl">
-                    <i class="fas fa-thermometer-half text-gray-500"></i>
-                    <p class="text-gray-500">{{ $currentOutside }}°C</p>
-                </div>
-            </x-slot>
-        </x-card>
-
-        
+        {{-- include the temperatures component --}}
+        <livewire:temperatures />
 
 
 
