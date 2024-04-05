@@ -1,7 +1,3 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+// Alpine has been removed because livewire is being used which has alpine built in

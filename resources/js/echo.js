@@ -12,6 +12,8 @@ window.Echo = new Echo({
 
 //add event listener
 var channel = window.Echo.channel('realtime_data');
-channel.listen('.send_data', function(data) {
-  alert(JSON.stringify(data));
+channel.listen('.update', function(data) {
+
+  //fire an event we can listen for
+  window.dispatchEvent(new CustomEvent('realtime-data', {detail: data}));
 });

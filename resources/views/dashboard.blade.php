@@ -89,16 +89,14 @@
     <div class="flex flex-row w-full justify-center h-60">
 
         {{-- make two cards for inside and outside temperature --}}
-        <x-card header="Inside Temperature">
-            <x-slot name="body">
-                {{-- show the inside temperature with a fa thermometer-half icon --}}
-                <div class="flex flex-col items-center text-4xl">
-                    <i class="fas fa-thermometer-half text-gray-500"></i>
-                    {{--output the most recent temperature reading from the sensor. this is being passed in in the multimensional array $data --}}
-                    <p class="text-gray-500">{{ $currentInside }}°C</p>
-                </div>
-            </x-slot>
-        </x-card>
+        {{-- the inside temperature card will be a livewire component, we need to pass in currentInside --}}
+
+        @livewire('inside-temperature', ['currentInside' => $currentInside])
+
+        {{-- the outside temperature card will be a regular blade component, we need to pass in currentOutside --}}
+
+
+
 
         <x-card header="Outside Temperature">
             <x-slot name="body">
