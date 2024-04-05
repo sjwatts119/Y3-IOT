@@ -23,7 +23,7 @@ class Temperatures extends Component
 
     public function updateData($newInside, $newOutside)
     {
-        //update the currentInside value in the live view.
+        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
         $this->currentInside = $newInside;
         $this->currentOutside = $newOutside;
     }

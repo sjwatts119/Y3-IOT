@@ -10,29 +10,8 @@
     {{-- make a container row for the three card components with width 100% --}}
     <div class="flex flex-row w-full justify-center h-60">
 
-        {{-- make a card component with the title "Heater" --}}
-        <x-card header="Heater">
-            {{-- make a slot for the body of the card --}}
-            <x-slot name="body">
-                {{-- we need to show the user whether the heating is on or off with an appropriate icon --}}
-
-                {{-- if the heater is on, show a red fa flame icon --}}
-                @if ($heaterOn)
-                    <div class="flex flex-col items-center text-4xl">
-                        <i class="fas fa-fire text-red-500"></i>
-                        <p class="text-red-500">On</p>
-                    </div>
-
-                {{-- if the heater is off, show a grey fa flame icon --}}
-                @else
-                    <div class="flex flex-col items-center text-4xl">
-                        <i class="fas fa-fire text-gray-500"></i>
-                        <p class="text-gray-500">Off</p>
-                    </div>
-                    
-                @endif
-            </x-slot>
-        </x-card>
+        {{-- include the heater livewire component --}}
+        <livewire:heater />
 
         {{-- make a card component with the title "Window" --}}
         <x-card header="Window">

@@ -24,7 +24,7 @@
 
 @script
 <script>
-    //listen for the event from echo.js and refresh live wire component
+    //listen for the event from echo.js and refresh livewire component
     window.addEventListener('realtime-data', event => {
         $wire.updateData(event.detail.payload.currentInside, event.detail.payload.currentOutside);
     });
