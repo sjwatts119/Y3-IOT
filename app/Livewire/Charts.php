@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Events\RequestData;
+use App\Models\Temperature;
 
 class Charts extends Component
 {
@@ -15,26 +17,24 @@ class Charts extends Component
     //the mount function is called when the component is initialized for the first time.
     public function mount()
     {
-        //make a test array of twenty random numbers between 0 and 100.
-        for ($i = 0; $i < 20; $i++) {
-            $this->chartDataInside[] = rand(0, 100);
-        }
+        //loop through the last 100 temperature records and add them to the chart data array.
+        $temperatures = Temperature::orderBy('created_at', 'desc')->limit(100)->get();
 
-        //make a test array of twenty random numbers between 0 and 100.
-        for ($i = 0; $i < 20; $i++) {
-            $this->chartDataOutside[] = rand(0, 100);
+        foreach ($temperatures as $temperature) {
+            $this->chartDataInside[] = $temperature->sensorInside;
+            $this->chartDataOutside[] = $temperature->sensorOutside;
+            $this->chartLabels[] = $temperature->created_at->format('H:i:s');
         }
-
-        //make a test array of timestamps for the x-axis labels.
-        $this->chartLabels = [
-            '12:00:00', '12:00:01', '12:00:02', '12:00:03', '12:00:04', '12:00:05', '12:00:06', '12:00:07', '12:00:08', '12:00:09',
-            '12:00:10', '12:00:11', '12:00:12', '12:00:13', '12:00:14', '12:00:15', '12:00:16', '12:00:17', '12:00:18', '12:00:19',
-        ];
     }
 
     //the render function is called every time the component is updated, to render the view.
     public function render()
     {
+        //we should dispatch an event to request the initial data from our pusher channel.
+        RequestData::dispatch();
+
+        //when the component is rendered, we will have an event listener that listens for the returned data from our Pi, it will then update the chart data with the new data.
+
         return view('livewire.charts')->with([
             'chartDataInside' => $this->chartDataInside,
             'chartDataOutside' => $this->chartDataOutside,
