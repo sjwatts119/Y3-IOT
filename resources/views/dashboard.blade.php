@@ -5,21 +5,23 @@
         <x-warning :warning="$warning" class="mb-4" />
 
     @endif
-    {{-- make a container row for the three card components with width 100% --}}
-    <div class="flex flex-row w-full justify-center h-60">
+    {{-- keep the page within a 75% width container --}}
+    <div class="w-3/4 m-auto">
 
-        {{-- include the heater livewire component --}}
-        <livewire:heater />
+        {{-- make a container row for the three card components with width 100% --}}
+        <div class="flex flex-row w-full justify-center h-60">
 
-        {{-- include the window livewire component --}}
-        <livewire:window />
+            {{-- include the heater livewire component --}}
+            <livewire:heater />
 
-        {{-- make a card component with the title "Air Conditioning" --}}
-        <livewire:air-conditioning />
+            {{-- include the window livewire component --}}
+            <livewire:window />
 
+            {{-- make a card component with the title "Air Conditioning" --}}
+            <livewire:air-conditioning />
+
+        </div>
     </div>
-
-    {{-- make a container row for the two card components with width 100% --}}
 
     {{-- include the temperatures component --}}
     <livewire:temperatures />

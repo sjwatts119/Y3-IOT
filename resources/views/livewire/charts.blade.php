@@ -4,13 +4,17 @@
 @endassets
 @endsection
 
-<x-card header="Temperature Chart" class="w-screen">
-    <x-slot name="body">
-        <div style="width: 600px; margin: auto;">
-            <canvas id="temperatureChart" width="400" height="250"></canvas>
-        </div>
-    </x-slot>
-</x-card>
+{{-- 100% width container for the chart --}}
+<div class="flex flex-row w-screen justify-center">
+    <x-card header="Temperature Chart" class="w-11/12">
+        <x-slot name="body">
+            <div class="chart-container" class="relative" style="height:200px;">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+        </x-slot>
+    </x-card>
+</div>
+
 
 @script
 <script>
@@ -36,11 +40,8 @@
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+            maintainAspectRatio: false,
+            responsive: true,
         }
     });
 
