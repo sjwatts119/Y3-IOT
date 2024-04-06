@@ -13,15 +13,13 @@ class Temperatures extends Component
     {
         //is currentInside already defined?
         if (!isset($this->currentInside)) {
-            //initialize the currentInside value in the live view. This is necessary to populate the first value, before waiting for the first update.
-            $this->currentInside = Temperature::latest()->first()->sensorInside;
-
-            //because we are pulling old data, we need to inform the user this data is stale and the live data is loading.
+            //because we are pulling old data, we need to set this to use in the blade to show the user the data is loading
             $this->insideStale = true;
+            $this->currentInside = 0;
         }
         if(!isset($this->currentOutside)) {
-            $this->currentOutside = Temperature::latest()->first()->sensorOutside;
             $this->outsideStale = true;
+            $this->currentOutside = 0;
         }
     }
 
