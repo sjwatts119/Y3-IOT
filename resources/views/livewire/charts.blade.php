@@ -55,7 +55,7 @@
         temperatureChart.data.datasets[0].data.push(event.detail.payload.currentInside);
         temperatureChart.data.datasets[1].data.push(event.detail.payload.currentOutside);
 
-        if (temperatureChart.data.labels.length > 100) {
+        if (temperatureChart.data.labels.length >= 100) {
             temperatureChart.data.labels.shift();
             temperatureChart.data.datasets[0].data.shift();
             temperatureChart.data.datasets[1].data.shift();

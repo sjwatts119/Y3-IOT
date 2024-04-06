@@ -18,7 +18,7 @@ class Charts extends Component
     public function mount()
     {
         //loop through the last 100 temperature records and add them to the chart data array.
-        $temperatures = Temperature::orderBy('created_at', 'desc')->limit(100)->get();
+        $temperatures = Temperature::orderBy('created_at', 'asc')->limit(100)->get();
 
         foreach ($temperatures as $temperature) {
             $this->chartDataInside[] = $temperature->sensorInside;

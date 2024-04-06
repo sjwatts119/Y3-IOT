@@ -23,10 +23,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //run the temperature factory to generate 20 records. wait 3 seconds between each record.
+        /*
         for($i = 0; $i < 20; $i++) {
             Temperature::factory()->create();
             sleep(3);
         }
+        */
 
     }
 }
