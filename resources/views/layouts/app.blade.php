@@ -11,6 +11,10 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <script src="https://kit.fontawesome.com/dde6cacc9b.js" crossorigin="anonymous"></script>
+
+        <!-- this is going to be used by the livewire charts component to include the chart.js library -->
+        @yield('custom-css')
+
         @livewireStyles
 
         <!-- Scripts -->
