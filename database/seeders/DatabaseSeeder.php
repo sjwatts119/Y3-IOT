@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\AcRecord;
 use App\Models\Temperature;
+use App\Models\HeaterRecord;
+use App\Models\WindowRecord;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,12 +26,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //run the temperature factory to generate 20 records. wait 3 seconds between each record.
-        /*
         for($i = 0; $i < 20; $i++) {
             Temperature::factory()->create();
+            sleep(1);
+        }
+
+        //run ac factory, heater factory, and window factory to generate 5 records each. wait 3 seconds between each burst of records.
+        for($i = 0; $i < 5; $i++) {
+            AcRecord::factory()->create();
+            HeaterRecord::factory()->create();
+            WindowRecord::factory()->create();
             sleep(3);
         }
-        */
-
     }
 }
