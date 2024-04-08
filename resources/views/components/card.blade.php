@@ -8,10 +8,14 @@
     <div class="bg-gray-200 px-4 py-2 rounded-t-lg">
         {{ $header }}
     </div>
+    
+    {{-- make a slot for the buttons --}}
+    @if(isset($buttons))
+        {{ $buttons }}
+    @endif
+
     {{-- make a body with the body slot --}}
-    <div class="p-10">
-        {{ $body }}
-    </div>
+    {{ $body }}
 </div>
 
 
