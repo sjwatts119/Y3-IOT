@@ -23,7 +23,7 @@ class Heater extends Component
         //by default we should show the current status
         $this->showCurrentStatus = true;
 
-        //we should retrieve the last 10 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
+        //we should retrieve the last 5 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
         $this->heaterRecords = HeaterRecord::orderBy('created_at', 'desc')->take(5)->get();
     }
 
@@ -32,7 +32,7 @@ class Heater extends Component
         //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
         $this->currentHeaterStatus = $newHeaterStatus;
 
-        //we should retrieve the last 10 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
+        //we should retrieve the last 5 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
         $this->heaterRecords = HeaterRecord::orderBy('created_at', 'desc')->take(5)->get();
 
     }
