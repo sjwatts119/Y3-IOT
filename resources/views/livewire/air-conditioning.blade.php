@@ -36,7 +36,7 @@
             @endif
         @else
         <div class="flex flex-col items-center text-sm">
-            {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
+            {{-- if the showCurrentStatus property is false, show the historical data --}}
             @foreach($acRecords as $acRecord)
                 <p>{{ $acRecord->created_at->format('H:i:s') }} - {{ $acRecord->status ? 'On' : 'Off' }}</p>
             @endforeach
