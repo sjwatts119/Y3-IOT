@@ -17,8 +17,11 @@ class Charts extends Component
     //the mount function is called when the component is initialized for the first time.
     public function mount()
     {
-        //loop through the last 100 temperature records and add them to the chart data array.
-        $temperatures = Temperature::orderBy('created_at', 'asc')->limit(100)->get();
+        //in a descending order from created_at column, we will get the last 100 records from the Temperature model.
+        $temperatures = Temperature::orderBy('created_at', 'desc')->take(100)->get();
+
+        //we need to reorder the data so that the first record is the last record in the array.
+        $temperatures = $temperatures->reverse();
 
         foreach ($temperatures as $temperature) {
             $this->chartDataInside[] = $temperature->sensorInside;
