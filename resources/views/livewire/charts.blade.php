@@ -8,13 +8,12 @@
 <div class="flex flex-col items-center w-full mx-auto px-5">
     <x-card header="Temperature Chart" class="w-full">
         <x-slot name="body">
-            <div class="chart-container" class="relative" style="height:200px;">
+            <div class="chart-container" class="relative" style="height:250px;">
                 <canvas id="temperatureChart"></canvas>
             </div>
         </x-slot>
     </x-card>
 </div>
-
 
 @script
 <script>
