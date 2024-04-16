@@ -3,10 +3,10 @@
         {{-- we should have two buttons. These will toggle the card from showing the current status to the chart of historical data --}}
         <div class="flex flex-row justify-between">
             {{-- make a button with the text "Current Status" --}}
-            <button wire:click="showCurrent(true)" class="bg-gray-200 text-gray-700 px-2 rounded-md"><i class="fa-solid fa-repeat"></i></button>
+            <button wire:click="showCurrent(true)" class="bg-gray-200 text-gray-700 px-2 rounded-md" title="View Current Status"><i class="fa-solid fa-repeat"></i></button>
 
             {{-- make a button with the text "Historical Data" --}}
-            <button wire:click="showCurrent(false)" class="bg-gray-200 text-gray-700 px-2 rounded-md"><i class="fa-solid fa-clock-rotate-left"></i></button>
+            <button wire:click="showCurrent(false)" class="bg-gray-200 text-gray-700 px-2 rounded-md" title="View Historic Statuses"><i class="fa-solid fa-clock-rotate-left"></i></button>
         </div>
     </x-slot>
 

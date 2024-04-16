@@ -1,4 +1,4 @@
-<div class="flex flex-row w-full justify-center h-60">
+<div class="flex flex-row flex-wrap w-full justify-center min-h-60">
     <x-card header="Inside Temperature">
         <x-slot name="body">
             <div class="p-8">

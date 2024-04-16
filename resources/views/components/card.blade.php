@@ -1,5 +1,5 @@
 {{-- make a card component, we should be able to merge in custom class elements --}}
-<div {{ $attributes->merge(['class' => 'w-1/3 m-5 bg-white rounded-lg shadow-lg']) }}>
+<div {{ $attributes->merge(['class' => 'max-w-full min-w-80 m-5 bg-white rounded-lg shadow-lg']) }}>
 
     {{-- make a header with the title passed in --}}
     <div class="bg-gray-200 px-4 py-2 rounded-t-lg">

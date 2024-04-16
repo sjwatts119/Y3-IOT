@@ -7,7 +7,7 @@
     @endif
 
     {{-- make a container row for the three card components with width 100% --}}
-    <div class="flex flex-row w-full justify-center h-60">
+    <div class="flex flex-wrap w-full justify-center min-h-60">
 
         {{-- include the heater livewire component --}}
         <livewire:heater />
@@ -20,8 +20,14 @@
 
     </div>
 
+    {{--80% width divider line for the page--}}
+    <div class="w-10/12 mx-auto border-b-2 border-gray-500 my-5"></div>
+
     {{-- include the temperatures component --}}
     <livewire:temperatures />
+
+    {{--80% width divider line for the page--}}
+    <div class="w-10/12 mx-auto border-b-2 border-gray-500 my-5"></div>
 
     {{-- include the charts component with a width of 90% --}}
     <livewire:charts />
