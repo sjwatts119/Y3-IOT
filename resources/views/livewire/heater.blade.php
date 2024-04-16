@@ -43,9 +43,12 @@
             <div class="flex flex-col items-center text-sm">
                 {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
                 @foreach($heaterRecords as $heaterRecord)
-                    {{--within here is a multidimensional array, each instance of heaterrecord will have access to the start time, end time and duration of the heater being on.--}}
-                    {{--we should display this information using the time the heater was on, and the duration it was on for each time.--}}
-                    <p>Heater On at {{ $heaterRecord['on']->format('H:i:s') }} for: {{ $heaterRecord['duration'] }}</p>
+                    @if($heaterRecord['duration'] > 3600)
+                        <p>{{ $heaterRecord['on']->format('H:i:s') }} for {{ round($heaterRecord['duration'] / 3600, 1) }} hours</p>
+                    @else
+                        <p>{{ $heaterRecord['on']->format('H:i:s') }} for {{ round($heaterRecord['duration'] / 60, 0) }} minutes</p>
+                    @endif
+
                 @endforeach
 
             </div>

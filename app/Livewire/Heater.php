@@ -35,6 +35,7 @@ class Heater extends Component
         $lastHeaterOnTime = null;
         foreach ($allHeaterRecords as $record) {
             if ($record->status == true) {
+                //if the heater is already on, we don't need to do anything as we are already tracking the time it was turned on.
                 if($isHeaterOn == true){
                     continue;
                 }
@@ -44,8 +45,8 @@ class Heater extends Component
                 if ($isHeaterOn) {
                     $heaterRecord['on'] = $lastHeaterOnTime;
                     $heaterRecord['off'] = $record->created_at;
-                    //store the difference in hours and minutes in format hh:mm and ensure we are rounding to whole numbers.
-                    $heaterRecord['duration'] = $lastHeaterOnTime->diff($record->created_at)->format('%h:%I');
+                    //store the difference in seconds between the two times and ensure this is rounded to a whole number.
+                    $heaterRecord['duration'] = round($heaterRecord['on']->diffInSeconds($heaterRecord['off']));
                     $this->heaterRecords[] = $heaterRecord;
                     $heaterRecord = [];
                     $isHeaterOn = false;
