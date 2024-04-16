@@ -4,9 +4,9 @@
 @endassets
 @endsection
 
-{{-- 100% width container for the chart --}}
-<div class="flex flex-row w-screen justify-center">
-    <x-card header="Temperature Chart" class="w-11/12">
+{{-- chart should be within a flex container that takes up 90% width and is in the middle of the page--}}
+<div class="flex flex-col items-center w-full mx-auto px-5">
+    <x-card header="Temperature Chart" class="w-full">
         <x-slot name="body">
             <div class="chart-container" class="relative" style="height:200px;">
                 <canvas id="temperatureChart"></canvas>
