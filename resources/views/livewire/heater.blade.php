@@ -44,9 +44,10 @@
                 {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
                 @foreach($heaterRecords as $heaterRecord)
                     @if($heaterRecord['duration'] > 3600)
-                        <p>{{ $heaterRecord['on']->format('H:i:s') }} for {{ round($heaterRecord['duration'] / 3600, 1) }} hours</p>
+                    {{--we need to show the day, month and the time of the heater being turned on, and the duration it was on for--}}
+                        <p>{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 3600, 0) }} hours</p>
                     @else
-                        <p>{{ $heaterRecord['on']->format('H:i:s') }} for {{ round($heaterRecord['duration'] / 60, 0) }} minutes</p>
+                        <p>{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 60, 0) }} minutes</p>
                     @endif
 
                 @endforeach
