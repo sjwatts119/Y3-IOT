@@ -12,10 +12,11 @@
 
     {{-- make a slot for the body of the card --}}
     <x-slot name="body">
+        <div class="min-h-48">
 
             {{-- if the showCurrentStatus property is true, show the current status --}}
             @if($showCurrent)
-                <div class="p-8">
+                <div class="p-12">
 
                     {{-- we need to show the user whether the heating is on or off with an appropriate icon --}}
                     {{-- if the heater is on, show a red fa flame icon --}}
@@ -40,20 +41,25 @@
                     @endif
                 </div>
             @else
-            <div class="flex flex-col items-center text-sm">
+            <div class="flex flex-col items-center text-sm p-10 overflow-auto">
                 {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
                 @foreach($heaterRecords as $heaterRecord)
+
+                {{--we need to make a pretty display with internal overflow scrolling downwards using tailwind classes--}}
+                <div class="flex flex-col items-center text-sm">
                     @if($heaterRecord['duration'] > 3600)
                     {{--we need to show the day, month and the time of the heater being turned on, and the duration it was on for--}}
-                        <p>{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 3600, 0) }} hours</p>
+                        <p class="text-red-600">{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 3600, 0) }} hours</p>
                     @else
-                        <p>{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 60, 0) }} minutes</p>
+                        <p class="text-green-600">{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 60, 0) }} minutes</p>
                     @endif
+                </div>
 
                 @endforeach
 
             </div>
             @endif
+        </div>
     </x-slot>
 </x-card>
 

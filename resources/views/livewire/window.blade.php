@@ -15,7 +15,7 @@
         @if($showCurrent)
             {{-- we need to show the user whether the heating is on or off with an appropriate icon --}}
 
-            <div class="p-8">
+            <div class="p-12 min-h-48">
 
                 {{-- if the Window is on, show a red fa flame icon --}}
                 @if ($currentWindowStatus === true)

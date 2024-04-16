@@ -13,7 +13,7 @@
     <x-slot name="body">
         {{-- if the showCurrentStatus property is true, show the current status --}}
         @if($showCurrent)
-            <div class="p-8">
+            <div class="p-12 min-h-48">
                 {{-- we need to show the user whether the heating is on or off with an appropriate icon --}}
                 {{-- if the AC is on, show a red fa flame icon --}}
                 @if ($currentACStatus === true)
