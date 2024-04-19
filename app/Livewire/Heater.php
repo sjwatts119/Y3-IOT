@@ -12,24 +12,14 @@ class Heater extends Component
     public $showCurrentStatus;
     public $heaterRecords;
 
-    //the mount function is called when the component is initialized for the first time.
-    public function mount()
-    {
-        //we are currently setting the first load to a string, we will check if the value is true or false in the view. if it is a string we will say the data is loading.
-        if (!isset($this->currentHeaterStatus)) {
-            $this->currentHeaterStatus = "unknown";
-        }
-
-        //by default we should show the current status
-        $this->showCurrentStatus = true;
-
+    public function getUpdatedHistoricalData(){
         //get the last 50 records from the HeaterStatus model. This will be temporarily stored and used in the next step.
         $allHeaterRecords = HeaterRecord::orderBy('created_at', 'asc')->take(50)->get();
 
         //we need to make a multidimensional array that will store each instance of where the heater was on.
         //we need to analyse the data in the $allHeaterRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the heater was on.
         //each instance of the heater being on should be stored in the $heaterRecords array.
-        $this->heaterRecords = [];
+        $heaterRecords = [];
         $heaterRecord = [];
         $isHeaterOn = false;
         $lastHeaterOnTime = null;
@@ -47,21 +37,37 @@ class Heater extends Component
                     $heaterRecord['off'] = $record->created_at;
                     //store the difference in seconds between the two times and ensure this is rounded to a whole number.
                     $heaterRecord['duration'] = round($heaterRecord['on']->diffInSeconds($heaterRecord['off']));
-                    $this->heaterRecords[] = $heaterRecord;
+                    $heaterRecords[] = $heaterRecord;
                     $heaterRecord = [];
                     $isHeaterOn = false;
                 }
             }
         }
         //reverse the array so the most recent records are at the top.
-        $this->heaterRecords = array_reverse($this->heaterRecords);
+        $heaterRecords = array_reverse($heaterRecords);
+
+        return $heaterRecords;
+    }
+
+    //the mount function is called when the component is initialized for the first time.
+    public function mount()
+    {
+        //we are currently setting the first load to a string, we will check if the value is true or false in the view. if it is a string we will say the data is loading.
+        if (!isset($this->currentHeaterStatus)) {
+            $this->currentHeaterStatus = "unknown";
+        }
+
+        //by default we should show the current status
+        $this->showCurrentStatus = true;
+
+        //get the updated historical data and store it in the heaterRecords array.
+        $this->heaterRecords = $this->getUpdatedHistoricalData();
     }
 
     public function updateData($newHeaterStatus)
     {
         //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
         $this->currentHeaterStatus = $newHeaterStatus;
-
     }
 
     public function showCurrent($isCurrent)

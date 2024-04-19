@@ -38,7 +38,7 @@ class Window extends Component
                     $windowRecord['closed'] = $record->created_at;
                     //store the difference in seconds between the two times and ensure this is rounded to a whole number.
                     $windowRecord['duration'] = round($windowRecord['open']->diffInSeconds($windowRecord['closed']));
-                    $this->windowRecords[] = $windowRecord;
+                    $windowRecords[] = $windowRecord;
                     $windowRecord = [];
                     $windowOpen = false;
                 }
@@ -46,9 +46,17 @@ class Window extends Component
         }
 
         //reverse the array so the most recent records are at the top.
-        $windowRecords = array_reverse($this->windowRecords);
+        $windowRecords = array_reverse($windowRecords);
 
         return $windowRecords;
+    }
+
+    public function updateData($newWindowStatus)
+    {
+        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
+        $this->currentWindowStatus = $newWindowStatus;
+
+        //FIX we need to be populating this properly again but for testing we are disabling the ability for the pusher event to change the contents of the windowRecords array.
     }
 
     //the mount function is called when the component is initialized for the first time.
@@ -64,14 +72,6 @@ class Window extends Component
 
         //call the getUpdatedHistoricalData function to get the latest data from the database.
         $this->windowRecords = $this->getUpdatedHistoricalData();
-    }
-
-    public function updateData($newWindowStatus)
-    {
-        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
-        $this->currentWindowStatus = $newWindowStatus;
-
-        //FIX we need to be populating this properly again but for testing we are disabling the ability for the pusher event to change the contents of the windowRecords array.
     }
 
     public function showCurrent($isCurrent)
