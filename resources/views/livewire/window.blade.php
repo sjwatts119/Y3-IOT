@@ -43,7 +43,16 @@
             <div class="flex flex-col items-center text-sm">
                 {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
                 @foreach($windowRecords as $windowRecord)
-                    <p>{{ $windowRecord->created_at->format('H:i:s') }} - {{ $windowRecord->status ? 'Open' : 'Closed' }}</p>
+
+                {{--we need to make a pretty display with internal overflow scrolling downwards using tailwind classes--}}
+                <div class="flex flex-col items-center text-sm">
+                    @if($windowRecord['duration'] > 3600)
+                    {{--we need to show the day, month and the time of the Window being turned on, and the duration it was on for--}}
+                        <p class="text-red-600">{{ $windowRecord['open']->format('d/m H:i') }} for {{ round($windowRecord['duration'] / 3600, 0) }} hours</p>
+                    @else
+                        <p class="text-green text-green-600">{{ $windowRecord['open']->format('d/m H:i') }} for {{ round($windowRecord['duration'] / 60, 0) }} minutes</p>
+                    @endif
+                </div>
                 @endforeach
             </div>
             @endif

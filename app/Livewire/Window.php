@@ -22,8 +22,41 @@ class Window extends Component
         //by default we should show the current status
         $this->showCurrentStatus = true;
 
-        //we should retrieve the last 5 records using the WindowRecord model. we will order the records by the created_at column in descending order.
-        $this->windowRecords = WindowRecord::orderBy('created_at', 'desc')->take(5)->get();
+        //get the last 50 records using the WindowRecord model. This will be temporarily stored and used in the next step
+
+        $allWindowRecords = WindowRecord::orderBy('created_at', 'asc')->take(50)->get();
+
+        //we need to make a multidimensional array that will store each instance of where the window was opened.
+        //we need to analyse the data in the $allWindowRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the window was open.
+        //each instance of the window being open should be stored in the $windowRecords array.
+
+        $this->windowRecords = [];
+        $windowRecord = [];
+        $windowOpen = false;
+        $windowOpenTime = null;
+        foreach ($allWindowRecords as $record) {
+            if ($record->status == true) {
+                //if the window is already open, we don't need to do anything as we are already tracking the time it was opened.
+                if($windowOpen == true){
+                    continue;
+                }
+                $windowOpen = true;
+                $windowOpenTime = $record->created_at;
+            } else {
+                if ($windowOpen) {
+                    $windowRecord['open'] = $windowOpenTime;
+                    $windowRecord['closed'] = $record->created_at;
+                    //store the difference in seconds between the two times and ensure this is rounded to a whole number.
+                    $windowRecord['duration'] = round($windowRecord['open']->diffInSeconds($windowRecord['closed']));
+                    $this->windowRecords[] = $windowRecord;
+                    $windowRecord = [];
+                    $windowOpen = false;
+                }
+            }
+        }
+
+        //reverse the array so the most recent records are at the top.
+        $this->windowRecords = array_reverse($this->windowRecords);
     }
 
     public function updateData($newWindowStatus)
@@ -31,8 +64,7 @@ class Window extends Component
         //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
         $this->currentWindowStatus = $newWindowStatus;
 
-        //we should retrieve the last 5 records using the WindowRecord model. we will order the records by the created_at column in descending order.
-        $this->windowRecords = WindowRecord::orderBy('created_at', 'desc')->take(5)->get();
+        //FIX we need to be populating this properly again but for testing we are disabling the ability for the pusher event to change the contents of the windowRecords array.
     }
 
     public function showCurrent($isCurrent)
