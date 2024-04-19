@@ -38,9 +38,17 @@
             </div>
         @else
         <div class="flex flex-col items-center text-sm">
-            {{-- if the showCurrentStatus property is false, show the historical data --}}
+            {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
             @foreach($acRecords as $acRecord)
-                <p>{{ $acRecord->created_at->format('H:i:s') }} - {{ $acRecord->status ? 'On' : 'Off' }}</p>
+
+            {{--we need to make a pretty display with internal overflow scrolling downwards using tailwind classes--}}
+            <div class="flex flex-col items-center text-sm">
+                @if($acRecord['duration'] > 3600)
+                {{--we need to show the day, month and the time of the AC being turned on, and the duration it was on for--}}
+                    <p class="text-red-600">{{ $acRecord['on']->format('d/m H:i') }} for {{ round($acRecord['duration'] / 3600, 0) }} hours</p>
+                @else
+                    <p class="text-green text-green-600">{{ $acRecord['on']->format('d/m H:i') }} for {{ round($acRecord['duration'] / 60, 0) }} minutes</p>
+                @endif
             @endforeach
         </div>
         @endif

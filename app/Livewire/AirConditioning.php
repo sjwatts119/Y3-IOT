@@ -11,7 +11,53 @@ class AirConditioning extends Component
     public $currentACStatus;
     public $showCurrentStatus;
     public $acRecords;
-    
+
+    public function getUpdatedHistoricalData(){
+        //get the last 50 records from the HeaterStatus model. This will be temporarily stored and used in the next step.
+        $allACRecords = AcRecord::orderBy('created_at', 'asc')->take(50)->get();
+
+        //we need to make a multidimensional array that will store each instance of where the heater was on.
+        //we need to analyse the data in the $allHeaterRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the heater was on.
+        //each instance of the heater being on should be stored in the $heaterRecords array.
+        $acRecords = [];
+        $acRecord = [];
+        $isACOn = false;
+        $lastACOnTime = null;
+        foreach ($allACRecords as $record) {
+            if ($record->status == true) {
+                //if the heater is already on, we don't need to do anything as we are already tracking the time it was turned on.
+                if($isACOn == true){
+                    continue;
+                }
+                $isACOn = true;
+                $lastACOnTime = $record->created_at;
+            } else {
+                if ($isACOn) {
+                    $acRecord['on'] = $lastACOnTime;
+                    $acRecord['off'] = $record->created_at;
+                    //store the difference in seconds between the two times and ensure this is rounded to a whole number.
+                    $acRecord['duration'] = round($acRecord['on']->diffInSeconds($acRecord['off']));
+                    $acRecords[] = $acRecord;
+                    $acRecord = [];
+                    $isACOn = false;
+                }
+            }
+        }
+        //reverse the array so the most recent records are at the top.
+        $acRecords = array_reverse($acRecords);
+
+        return $acRecords;
+    }
+
+    public function updateData($newACStatus)
+    {
+        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
+        $this->currentACStatus = $newACStatus;
+
+        //we should retrieve the last 5 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
+        $this->acRecords = AcRecord::orderBy('created_at', 'desc')->take(5)->get();
+    }
+
     //the mount function is called when the component is initialized for the first time.
     public function mount()
     {
@@ -23,17 +69,8 @@ class AirConditioning extends Component
         //by default we should show the current status
         $this->showCurrentStatus = true;
 
-        //we should retrieve the last 5 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
-        $this->acRecords = AcRecord::orderBy('created_at', 'desc')->take(5)->get();
-    }
-
-    public function updateData($newACStatus)
-    {
-        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
-        $this->currentACStatus = $newACStatus;
-
-        //we should retrieve the last 5 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
-        $this->acRecords = AcRecord::orderBy('created_at', 'desc')->take(5)->get();
+        //get the updated historical data and store it in the heaterRecords array.
+        $this->acRecords = $this->getUpdatedHistoricalData();
     }
 
     public function showCurrent($isCurrent)
