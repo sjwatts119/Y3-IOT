@@ -11,17 +11,7 @@ class Window extends Component
     public $showCurrentStatus;
     public $windowRecords;
 
-    //the mount function is called when the component is initialized for the first time.
-    public function mount()
-    {
-        //we are currently setting the first load to a string, we will check if the value is true or false in the view. if it is a string we will say the data is loading.
-        if (!isset($this->currentWindowStatus)) {
-            $this->currentWindowStatus = "unknown";
-        }
-
-        //by default we should show the current status
-        $this->showCurrentStatus = true;
-
+    public function getUpdatedHistoricalData(){
         //get the last 50 records using the WindowRecord model. This will be temporarily stored and used in the next step
 
         $allWindowRecords = WindowRecord::orderBy('created_at', 'asc')->take(50)->get();
@@ -30,7 +20,7 @@ class Window extends Component
         //we need to analyse the data in the $allWindowRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the window was open.
         //each instance of the window being open should be stored in the $windowRecords array.
 
-        $this->windowRecords = [];
+        $windowRecords = [];
         $windowRecord = [];
         $windowOpen = false;
         $windowOpenTime = null;
@@ -56,7 +46,24 @@ class Window extends Component
         }
 
         //reverse the array so the most recent records are at the top.
-        $this->windowRecords = array_reverse($this->windowRecords);
+        $windowRecords = array_reverse($this->windowRecords);
+
+        return $windowRecords;
+    }
+
+    //the mount function is called when the component is initialized for the first time.
+    public function mount()
+    {
+        //we are currently setting the first load to a string, we will check if the value is true or false in the view. if it is a string we will say the data is loading.
+        if (!isset($this->currentWindowStatus)) {
+            $this->currentWindowStatus = "unknown";
+        }
+
+        //by default we should show the current status
+        $this->showCurrentStatus = true;
+
+        //call the getUpdatedHistoricalData function to get the latest data from the database.
+        $this->windowRecords = $this->getUpdatedHistoricalData();
     }
 
     public function updateData($newWindowStatus)
