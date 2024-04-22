@@ -12,7 +12,7 @@
 
     {{-- make a slot for the body of the card --}}
     <x-slot name="body">
-        <div class="min-h-48">
+        <div class="h-48">
 
             {{-- if the showCurrentStatus property is true, show the current status --}}
             @if($showCurrent)
@@ -41,23 +41,43 @@
                     @endif
                 </div>
             @else
-            <div class="flex flex-col items-center text-sm p-10 overflow-auto">
-                {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
-                @foreach($heaterRecords as $heaterRecord)
 
-                {{--we need to make a pretty display with internal overflow scrolling downwards using tailwind classes--}}
-                <div class="flex flex-col items-center text-sm">
-                    @if($heaterRecord['duration'] > 3600)
-                    {{--we need to show the day, month and the time of the heater being turned on, and the duration it was on for--}}
-                        <p class="text-red-600">{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 3600, 0) }} hours</p>
-                    @else
-                        <p class="text-green-600">{{ $heaterRecord['on']->format('d/m H:i') }} for {{ round($heaterRecord['duration'] / 60, 0) }} minutes</p>
-                    @endif
+                {{--WITHOUT using flex classes, we need to show the historical data using a table and have it scrollable if there are many records--}}
+                <div class="overflow-y-auto max-h-full">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Status</th>
+                                <th class="px-4 py-2">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{--we need to loop through the heaterrecords array and output the data in a table row--}}
+                            {{--we have access to every instance the heater turned on, and how long it was turned on for--}}
+
+                            @foreach($heaterRecords as $heaterRecord)
+                            {{--align everything in table row to center--}}
+                                <tr class="text-center">
+                                    {{--show the day, month and the time of the heater being turned on--}}
+                                    <td class="border px-4 py-2">{{ $heaterRecord['on']->format('d/m H:i') }}</td>
+                                    {{--show a red fa flame icon identical to the one used in the current status display--}}
+                                    <td class="border px-4 py-2">
+                                        <i class="fas fa-fire text-red-500"></i>
+                                    </td>
+                                    {{--if the duration is greater than 3600 seconds, we should show the duration in hours--}}
+                                    @if($heaterRecord['duration'] > 3600)
+                                        <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 3600, 0) }} hours</td>
+                                    @else
+                                        {{--if the duration is less than 3600 seconds, we should show the duration in minutes--}}
+                                        <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 60, 0) }} minutes</td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
-                @endforeach
-
-            </div>
             @endif
         </div>
     </x-slot>
