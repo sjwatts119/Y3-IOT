@@ -11,21 +11,21 @@
     </x-slot>
     {{-- make a slot for the body of the card --}}
     <x-slot name="body">
-        <div class="min-h-48">
+        <div class="h-48">
             {{-- if the showCurrentStatus property is true, show the current status --}}
             @if($showCurrent)
                 {{-- we need to show the user whether the heating is on or off with an appropriate icon --}}
 
                 <div class="p-12">
 
-                    {{-- if the Window is on, show a red fa flame icon --}}
+                    {{-- if the Window is open, show a blue wind icon --}}
                     @if ($currentWindowStatus === true)
                         <div class="flex flex-col items-center text-4xl">
                             <i class="fa-solid fa-wind text-blue-500"></i>
                             <p class="text-blue-500">Open</p>
                         </div>
 
-                    {{-- if the Window is off, show a grey fa flame icon --}}
+                    {{-- if the Window is closed, show a grey window closed icon--}}
                     @elseif ($currentWindowStatus === false)
                         <div class="flex flex-col items-center text-4xl">
                             <i class="fas fa-window-close text-gray-500"></i>
@@ -41,20 +41,37 @@
                 </div>
 
                 @else
-                <div class="flex flex-col items-center text-xl">
-                    {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
-                    @foreach($windowRecords as $windowRecord)
+                <div class="overflow-y-auto max-h-full">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Status</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{--we need to loop through the windowRecords array and output the data in a table row--}}
+                            {{--we have access to every instance the window was opened, and how long it was opened for--}}
 
-                    {{--we need to make a pretty display with internal overflow scrolling downwards using tailwind classes--}}
-                    <div class="flex flex-col items-center">
-                        @if($windowRecord['duration'] > 3600)
-                        {{--we need to show the day, month and the time of the Window being turned on, and the duration it was on for--}}
-                            <p class="text-red-600">{{ $windowRecord['open']->format('d/m H:i') }} for {{ round($windowRecord['duration'] / 3600, 0) }} hours</p>
-                        @else
-                            <p class="text-green text-green-600">{{ $windowRecord['open']->format('d/m H:i') }} for {{ round($windowRecord['duration'] / 60, 0) }} minutes</p>
-                        @endif
-                    </div>
-                    @endforeach
+                            @foreach($windowRecords as $windowRecord)
+                                <tr class="text-center">
+                                    {{--show a red fa flame icon identical to the one used in the current status display--}}
+                                    <td class="border px-4 py-2">
+                                        <i class="fa-solid fa-wind text-blue-500"></i>
+                                    </td>
+                                    {{--show the time the window was opened--}}
+                                    <td class="border px-4 py-2">{{ $windowRecord['open']->format('d/m H:i') }}</td>
+                                    {{--show the duration the window was opened for--}}
+                                    @if($windowRecord['duration'] > 3600)
+                                        <td class="border px-4 py-2">{{ round($windowRecord['duration'] / 3600, 0) }} hours</td>
+                                    @else
+                                        <td class="border px-4 py-2">{{ round($windowRecord['duration'] / 60, 0) }} minutes</td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             @endif
         </div>

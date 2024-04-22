@@ -41,14 +41,12 @@
                     @endif
                 </div>
             @else
-
-                {{--WITHOUT using flex classes, we need to show the historical data using a table and have it scrollable if there are many records--}}
                 <div class="overflow-y-auto max-h-full">
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2">Time</th>
                                 <th class="px-4 py-2">Status</th>
+                                <th class="px-4 py-2">Time</th>
                                 <th class="px-4 py-2">Duration</th>
                             </tr>
                         </thead>
@@ -57,19 +55,18 @@
                             {{--we have access to every instance the heater turned on, and how long it was turned on for--}}
 
                             @foreach($heaterRecords as $heaterRecord)
-                            {{--align everything in table row to center--}}
                                 <tr class="text-center">
-                                    {{--show the day, month and the time of the heater being turned on--}}
-                                    <td class="border px-4 py-2">{{ $heaterRecord['on']->format('d/m H:i') }}</td>
                                     {{--show a red fa flame icon identical to the one used in the current status display--}}
                                     <td class="border px-4 py-2">
                                         <i class="fas fa-fire text-red-500"></i>
                                     </td>
+                                    {{--show the day, month and the time of the heater being turned on--}}
+                                    <td class="border px-4 py-2">{{ $heaterRecord['on']->format('d/m H:i') }}</td>
                                     {{--if the duration is greater than 3600 seconds, we should show the duration in hours--}}
                                     @if($heaterRecord['duration'] > 3600)
                                         <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 3600, 0) }} hours</td>
+                                    {{--if the duration is less than 3600 seconds, we should show the duration in minutes--}}
                                     @else
-                                        {{--if the duration is less than 3600 seconds, we should show the duration in minutes--}}
                                         <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 60, 0) }} minutes</td>
                                     @endif
                                 </tr>
@@ -77,7 +74,6 @@
                         </tbody>
                     </table>
                 </div>
-
             @endif
         </div>
     </x-slot>

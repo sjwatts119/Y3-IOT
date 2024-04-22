@@ -11,7 +11,7 @@
     </x-slot>
     {{-- make a slot for the body of the card --}}
     <x-slot name="body">
-        <div class="min-h-48">
+        <div class="h-48">
             {{-- if the showCurrentStatus property is true, show the current status --}}
             @if($showCurrent)
                 <div class="p-12">
@@ -38,20 +38,41 @@
                     @endif
                 </div>
             @else
-            <div class="flex flex-col items-center text-xl">
-                {{-- if the showCurrentStatus property is false, show the historical data using chartjs --}}
-                @foreach($acRecords as $acRecord)
 
-                {{--we need to make a pretty display with internal overflow scrolling downwards using tailwind classes--}}
-                <div class="flex flex-col items-center">
-                    @if($acRecord['duration'] > 3600)
-                    {{--we need to show the day, month and the time of the AC being turned on, and the duration it was on for--}}
-                        <p class="text-red-600">{{ $acRecord['on']->format('d/m H:i') }} for {{ round($acRecord['duration'] / 3600, 0) }} hours</p>
-                    @else
-                        <p class="text-green text-green-600">{{ $acRecord['on']->format('d/m H:i') }} for {{ round($acRecord['duration'] / 60, 0) }} minutes</p>
-                    @endif
-                @endforeach
-            </div>
+            <div class="overflow-y-auto max-h-full">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Status</th>
+                            <th class="px-4 py-2">Time</th>
+                            <th class="px-4 py-2">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{--we need to loop through the ACRecords array and output the data in a table row--}}
+                        {{--we have access to every instance the AC turned on, and how long it was turned on for--}}
+
+                        @foreach($acRecords as $acRecord)
+                            <tr class="text-center">
+                                {{--show a blue snowflake icon identical to the one used in the current status display--}}
+                                <td class="border px-4 py-2">
+                                    <i class="fas fa-snowflake text-blue-500"></i>
+                                </td>
+                                <td class="border px-4 py-2">{{ $acRecord['on']->format('d/m H:i') }}</td>
+                                {{--if the duration is less than 60 minutes, show the duration in minutes--}}
+                                {{--if the duration is more than 60 minutes, show the duration in hours and minutes--}}
+                                @if($acRecord['duration'] > 3600)
+                                    <td class="border px-4 py-2">{{ round($acRecord['duration'] / 3600, 0) }} hours</td>
+                                {{--if the duration is less than 3600 seconds, we should show the duration in minutes--}}
+                                @else
+                                    <td class="border px-4 py-2">{{ round($acRecord['duration'] / 60, 0) }} minutes</td>
+                                @endif
+
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             @endif
         </div>
     </x-slot>
