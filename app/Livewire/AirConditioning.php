@@ -53,9 +53,6 @@ class AirConditioning extends Component
     {
         //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
         $this->currentACStatus = $newACStatus;
-
-        //we should retrieve the last 5 records using the HeaterRecord model. we will order the records by the created_at column in descending order.
-        $this->acRecords = AcRecord::orderBy('created_at', 'desc')->take(5)->get();
     }
 
     //the mount function is called when the component is initialized for the first time.
