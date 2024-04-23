@@ -12,6 +12,8 @@ class Heater extends Component
     public $showCurrentStatus;
     public $heaterRecords;
 
+    public bool $field;
+
     public function getUpdatedHistoricalData(){
         //get the last 50 records from the HeaterStatus model. This will be temporarily stored and used in the next step.
         $allHeaterRecords = HeaterRecord::orderBy('created_at', 'asc')->take(50)->get();
@@ -37,7 +39,10 @@ class Heater extends Component
                     $heaterRecord['off'] = $record->created_at;
                     //store the difference in seconds between the two times and ensure this is rounded to a whole number.
                     $heaterRecord['duration'] = round($heaterRecord['on']->diffInSeconds($heaterRecord['off']));
-                    $heaterRecords[] = $heaterRecord;
+                    //has the heater been on for more than 60 seconds?
+                    if($heaterRecord['duration'] > 60){
+                        $heaterRecords[] = $heaterRecord;
+                    }
                     $heaterRecord = [];
                     $isHeaterOn = false;
                 }
@@ -70,10 +75,10 @@ class Heater extends Component
         $this->currentHeaterStatus = $newHeaterStatus;
     }
 
-    public function showCurrent($isCurrent)
+    public function toggleCurrent()
     {
-        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
-        $this->showCurrentStatus = $isCurrent;
+        //toggle the showCurrentStatus variable between true and false.
+        $this->showCurrentStatus = !$this->showCurrentStatus;
     }
 
     //the render function is called every time the component is updated, to render the view.

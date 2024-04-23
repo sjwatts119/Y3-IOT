@@ -38,7 +38,10 @@ class Window extends Component
                     $windowRecord['closed'] = $record->created_at;
                     //store the difference in seconds between the two times and ensure this is rounded to a whole number.
                     $windowRecord['duration'] = round($windowRecord['open']->diffInSeconds($windowRecord['closed']));
-                    $windowRecords[] = $windowRecord;
+                    //has the window been open for more than 60 seconds?
+                    if($windowRecord['duration'] > 60){
+                        $windowRecords[] = $windowRecord;
+                    }
                     $windowRecord = [];
                     $windowOpen = false;
                 }
@@ -74,10 +77,10 @@ class Window extends Component
         $this->windowRecords = $this->getUpdatedHistoricalData();
     }
 
-    public function showCurrent($isCurrent)
+    public function toggleCurrent()
     {
-        //update the currentInside value in the live view based on the new data from the pusher event, this method is called from the frontend.
-        $this->showCurrentStatus = $isCurrent;
+        //toggle the showCurrentStatus variable between true and false.
+        $this->showCurrentStatus = !$this->showCurrentStatus;
     }
 
     //the render function is called every time the component is updated, to render the view.
