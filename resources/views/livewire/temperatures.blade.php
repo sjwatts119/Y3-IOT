@@ -21,6 +21,27 @@
         </x-slot>
     </x-card>
 
+    <x-card header="Goal Temperature">
+        <x-slot name="body">
+            <div class="p-12 min-h-48">
+                {{-- if the goal temperature is stale data, we should instead say waiting for sensor --}}
+                @if($goalStale)
+                <div class="flex flex-col items-center text-2xl">
+                    <i class="fas fa-spinner fa-spin text-gray-500"></i>
+                    <p class="text-gray-500 mt-5">Contacting Sensor...</p>
+                </div>
+                @else
+                {{-- show the goal temperature with a fa thermometer-half icon --}}
+                <div class="flex flex-col items-center text-4xl">
+                    <i class="fas fa-thermometer-half text-gray-500"></i>
+                    {{--output the most recent temperature reading from the sensor. this is being passed in as $currentGoal --}}
+                    <p class="text-gray-500">{{$currentGoal}}°C</p>
+                </div>
+                @endif
+            </div>
+        </x-slot>
+    </x-card>
+
     <x-card header="Outside Temperature">
         <x-slot name="body">
             <div class="p-12 min-h-48">
@@ -47,7 +68,7 @@
 <script>
     //listen for the event from echo.js and refresh livewire component
     window.addEventListener('realtime-data', event => {
-        $wire.updateData(event.detail.payload.currentInside, event.detail.payload.currentOutside);
+        $wire.updateData(event.detail.payload.currentInside, event.detail.payload.currentGoal, event.detail.payload.currentOutside);
     });
 
 </script>
