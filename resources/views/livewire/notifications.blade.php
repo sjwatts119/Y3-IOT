@@ -27,8 +27,6 @@
                 @case(4)
                     <p>Windows are open to cool the house</p>
                     @break
-                @default
-                    <p>Unknown status</p>
             @endswitch
         </div>
     </div>

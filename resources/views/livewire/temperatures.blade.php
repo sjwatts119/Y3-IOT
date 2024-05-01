@@ -13,8 +13,12 @@
                 <div class="flex flex-col items-center text-4xl">
 
                     <i class="fas fa-thermometer-half text-gray-500"></i>
-                    {{--output the most recent temperature reading from the sensor. this is being passed in as $currentInside --}}
-                    <p class="text-gray-500">{{$currentInside}}°C</p>
+                    {{--output the most recent temperature reading from the sensor. this is being passed in as $currentInside. If null value, display an error. --}}
+                    @isset($currentInside)
+                        <p class="text-gray-500">{{$currentInside}}°C</p>
+                    @else
+                        <p class="text-xl text-red-500">Error: No Data</p>
+                    @endisset
                 </div>
                 @endif
             </div>
@@ -35,7 +39,11 @@
                 <div class="flex flex-col items-center text-4xl">
                     <i class="fas fa-thermometer-half text-gray-500"></i>
                     {{--output the most recent temperature reading from the sensor. this is being passed in as $currentGoal --}}
-                    <p class="text-gray-500">{{$currentGoal}}°C</p>
+                    @isset($currentGoal)
+                        <p class="text-gray-500">{{$currentGoal}}°C</p>
+                    @else
+                        <p class="text-xl text-red-500">Error: No Data</p>
+                    @endisset
                 </div>
                 @endif
             </div>
@@ -56,7 +64,11 @@
                 <div class="flex flex-col items-center text-4xl">
                     <i class="fas fa-thermometer-half text-gray-500"></i>
                     {{--output the most recent temperature reading from the sensor. this is being passed in as $currentOutside --}}
-                    <p class="text-gray-500">{{$currentOutside}}°C</p>
+                    @isset($currentOutside)
+                        <p class="text-gray-500">{{$currentOutside}}°C</p>
+                    @else
+                        <p class="text-xl text-red-500">Error: No Data</p>
+                    @endisset
                 </div>
                 @endif
             </div>
