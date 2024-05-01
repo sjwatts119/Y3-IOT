@@ -19,16 +19,16 @@ class AirConditioning extends Component
         //slice to remove records so only the last 1000 remain.
         $allACRecords = $allACRecords->slice(-1000);
 
-        //we need to make a multidimensional array that will store each instance of where the heater was on.
-        //we need to analyse the data in the $allHeaterRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the heater was on.
-        //each instance of the heater being on should be stored in the $heaterRecords array.
+        //we need to make a multidimensional array that will store each instance of where the AC was on.
+        //we need to analyse the data in the $allACRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the heater was on.
+        //each instance of the AC being on should be stored in the $ACRecords array.
         $acRecords = [];
         $acRecord = [];
         $isACOn = false;
         $lastACOnTime = null;
         foreach ($allACRecords as $record) {
             if ($record->status == true) {
-                //if the heater is already on, we don't need to do anything as we are already tracking the time it was turned on.
+                //if the AC is already on, we don't need to do anything as we are already tracking the time it was turned on.
                 if($isACOn == true){
                     continue;
                 }
