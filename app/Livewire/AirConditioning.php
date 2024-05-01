@@ -16,8 +16,8 @@ class AirConditioning extends Component
         //get all records from the AcRecord model. This will be temporarily stored and used in the next step.
         $allACRecords = AcRecord::orderBy('created_at', 'asc')->get();
 
-        //slice to remove records so only the last 1000 remain.
-        $allACRecords = $allACRecords->slice(-1000);
+        //slice to remove records so only the last 100 remain.
+        $allACRecords = $allACRecords->slice(-100);
 
         //we need to make a multidimensional array that will store each instance of where the AC was on.
         //we need to analyse the data in the $allACRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the heater was on.
