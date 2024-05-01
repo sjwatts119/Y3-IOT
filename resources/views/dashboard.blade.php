@@ -6,6 +6,8 @@
 
     @endif
 
+    <livewire:notifications />
+
     {{-- make a container row for the three card components with width 100% --}}
     <div class="flex flex-wrap w-full justify-center min-h-60">
 
