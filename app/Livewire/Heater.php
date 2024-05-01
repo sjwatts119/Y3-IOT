@@ -18,6 +18,9 @@ class Heater extends Component
         //get the last 50 records from the HeaterStatus model. This will be temporarily stored and used in the next step.
         $allHeaterRecords = HeaterRecord::orderBy('created_at', 'asc')->get();
 
+        //slice to remove records so only the last 300 remain.
+        $allHeaterRecords = $allHeaterRecords->slice(-1000);
+
         //we need to make a multidimensional array that will store each instance of where the heater was on.
         //we need to analyse the data in the $allHeaterRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the heater was on.
         //each instance of the heater being on should be stored in the $heaterRecords array.
@@ -50,10 +53,6 @@ class Heater extends Component
         }
         //reverse the array so the most recent records are at the top.
         $heaterRecords = array_reverse($heaterRecords);
-
-        //slice the records to only show the last 25 records maximum.
-        $heaterRecords = array_slice($heaterRecords, 0, 25);
-
 
         return $heaterRecords;
     }
