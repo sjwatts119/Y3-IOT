@@ -11,7 +11,7 @@
 
     {{--check there is a status and make sure it doesn't == 0 as this status doesn't require a popup.--}}
     @if($status !== 0)
-    <div class="absolute w-full top-16 right-0 bg-red-500 opacity-90 hover:opacity-100 text-white shadow-lg transition ease-in-out duration-150 h-8 px-6" wire:transition>
+    <div class="absolute w-full top-16 right-0 bg-red-500 opacity-90 hover:opacity-100 text-white shadow-lg transition ease-in-out duration-150 h-8 px-6">
         <div class="flex justify-between items-center w-full h-full px-12">
             {{--show the message that was passed in from the livewire component--}}
             @switch($status)
