@@ -61,10 +61,10 @@
                                     <td class="border px-4 py-2">{{ $heaterRecord['on']->format('d/m H:i') }}</td>
                                     {{--if the duration is greater than 3600 seconds, we should show the duration in hours--}}
                                     @if($heaterRecord['duration'] > 3600)
-                                        <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 3600, 0) }} hours</td>
+                                        <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 3600, 0) }} hour(s)</td>
                                     {{--if the duration is less than 3600 seconds, we should show the duration in minutes--}}
                                     @else
-                                        <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 60, 0) }} minutes</td>
+                                        <td class="border px-4 py-2">{{ round($heaterRecord['duration'] / 60, 0) }} minute(s)</td>
                                     @endif
                                 </tr>
                             @endforeach

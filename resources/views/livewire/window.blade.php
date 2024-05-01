@@ -61,9 +61,9 @@
                                     <td class="border px-4 py-2">{{ $windowRecord['open']->format('d/m H:i') }}</td>
                                     {{--show the duration the window was opened for--}}
                                     @if($windowRecord['duration'] > 3600)
-                                        <td class="border px-4 py-2">{{ round($windowRecord['duration'] / 3600, 0) }} hours</td>
+                                        <td class="border px-4 py-2">{{ round($windowRecord['duration'] / 3600, 0) }} hour(s)</td>
                                     @else
-                                        <td class="border px-4 py-2">{{ round($windowRecord['duration'] / 60, 0) }} minutes</td>
+                                        <td class="border px-4 py-2">{{ round($windowRecord['duration'] / 60, 0) }} minute(s)</td>
                                     @endif
                                 </tr>
                             @endforeach
