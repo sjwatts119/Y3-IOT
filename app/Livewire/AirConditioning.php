@@ -85,6 +85,9 @@ class AirConditioning extends Component
     //the render function is called every time the component is updated, to render the view.
     public function render()
     {
+        //call the getUpdatedHistoricalData function to get the latest data from the database.
+        $this->acRecords = $this->getUpdatedHistoricalData();
+        
         //return temperature view with currentInside and currentOutside values.
         return view('livewire.air-conditioning')->with([
             'currentACStatus' => $this->currentACStatus,
