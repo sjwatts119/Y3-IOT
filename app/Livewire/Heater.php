@@ -15,10 +15,10 @@ class Heater extends Component
     public bool $field;
 
     public function getUpdatedHistoricalData(){
-        //get the last 50 records from the HeaterStatus model. This will be temporarily stored and used in the next step.
+        //get all records from the HeaterRecord model. This will be temporarily stored and used in the next step.
         $allHeaterRecords = HeaterRecord::orderBy('created_at', 'asc')->get();
 
-        //slice to remove records so only the last 300 remain.
+        //slice to remove records so only the last 1000 remain.
         $allHeaterRecords = $allHeaterRecords->slice(-1000);
 
         //we need to make a multidimensional array that will store each instance of where the heater was on.
@@ -51,6 +51,7 @@ class Heater extends Component
                 }
             }
         }
+        
         //reverse the array so the most recent records are at the top.
         $heaterRecords = array_reverse($heaterRecords);
 
@@ -82,11 +83,15 @@ class Heater extends Component
     {
         //toggle the showCurrentStatus variable between true and false.
         $this->showCurrentStatus = !$this->showCurrentStatus;
+
     }
 
     //the render function is called every time the component is updated, to render the view.
     public function render()
     {
+        //call the getUpdatedHistoricalData function to get the latest data from the database.
+        $this->heaterRecords = $this->getUpdatedHistoricalData();
+
         //return temperature view with currentInside and currentOutside values.
         return view('livewire.heater')->with([
             'currentHeaterStatus' => $this->currentHeaterStatus,

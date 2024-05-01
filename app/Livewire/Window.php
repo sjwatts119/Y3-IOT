@@ -12,9 +12,11 @@ class Window extends Component
     public $windowRecords;
 
     public function getUpdatedHistoricalData(){
-        //get the last 50 records using the WindowRecord model. This will be temporarily stored and used in the next step
+        //get all records using the WindowRecord model. This will be temporarily stored and used in the next step
+        $allWindowRecords = WindowRecord::orderBy('created_at', 'asc')->get();
 
-        $allWindowRecords = WindowRecord::orderBy('created_at', 'asc')->take(50)->get();
+        //slice to remove records so only the last 1000 remain.
+        $allWindowRecords = $allWindowRecords->slice(-1000);
 
         //we need to make a multidimensional array that will store each instance of where the window was opened.
         //we need to analyse the data in the $allWindowRecords array and using the times where the status was true, and the next time it was false, we can calculate the time the window was open.
