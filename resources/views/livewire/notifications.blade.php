@@ -27,6 +27,9 @@
                 @case(4)
                     <p>Windows are open to cool the house</p>
                     @break
+                @case(5)
+                    <p>System is not running, all utilities are off</p>
+                    @break
             @endswitch
         </div>
     </div>
